@@ -6,7 +6,8 @@ const AUDIO_NAMES = ["subuh", "syuruk", "zohor", "asar", "maghrib", "isyak"];
 const audioCache = {};
 const audioPlayed = new Set(); // Keeps track of filenames played in this minute
 
-
+let nextPrayer = null;
+let nextTimeMs = null;
 let todayPrayerTimes = {};
 let currentHijriDate = "";
 
@@ -20,6 +21,7 @@ document.getElementById("current-time").textContent = now.toLocaleTimeString([],
 document.getElementById("gregorian-date").textContent = formatLongDate(now);
   checkAndUpdatePrayerHighlight(now);
   updateNextPrayerTimer(now);
+  checkPrayerAudio(now); 
 }
 
 function formatLongDate(date) {
@@ -131,8 +133,8 @@ function checkAndUpdatePrayerHighlight(now) {
 }
 function updateNextPrayerTimer(now) {
   const nowMs = now.getTime();
-  let nextPrayer = null;
-  let nextTimeMs = Infinity;
+  nextPrayer = null;
+  nextTimeMs = Infinity;
 
   PRAYER_NAMES.forEach(name => {
     const { hour, minute } = parseTime(todayPrayerTimes[name]);
