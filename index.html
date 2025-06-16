@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prayer Clock</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin: 0.5em 0;
+    }
+
+    .clock {
+      font-size: 5em;
+      font-weight: bold;
+      margin-top: 0.5em;
+    }
+
+    .date {
+      font-size: 1.5em;
+      margin-bottom: 1em;
+    }
+
+    .prayer-table {
+      width: 100%;
+      max-width: 600px;
+      border-collapse: collapse;
+      margin-top: 1em;
+    }
+
+    .prayer-table th,
+    .prayer-table td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #334155;
+    }
+
+    .prayer-table th {
+      background-color: #1e293b;
+      color: #f1f5f9;
+    }
+
+    .prayer-table .current {
+      background-color: #0284c7;
+      color: white;
+      font-weight: bold;
+    }
+
+    .next-prayer-timer {
+      margin-top: 1em;
+      font-size: 1.5em;
+      color: #facc15;
+    }
+  </style>
+</head>
+<body>
+  <h1>Prayer Clock</h1>
+
+  <div class="clock" id="current-time">--:--:--</div>
+  <div class="date" id="gregorian-date">Loading...</div>
+  <div class="date" id="hijri-date">Hijri: --/--/----</div>
+
+  <div class="next-prayer-timer" id="next-prayer-timer">
+    Next prayer in: --
+  </div>
+
+  <table class="prayer-table" id="prayer-table">
+    <thead>
+      <tr>
+        <th>Prayer</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Rows populated by script.js -->
+    </tbody>
+  </table>
+</body>
+</html>
