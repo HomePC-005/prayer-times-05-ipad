@@ -2,6 +2,11 @@ const PRAYER_NAMES = ["Subuh", "Syuruk", "Zohor", "Asar", "Maghrib", "Isyak"];
 const audioQueue = [];
 const recitationOffsetMin = 10;
 
+const AUDIO_NAMES = ["subuh", "syuruk", "zohor", "asar", "maghrib", "isyak"];
+const audioCache = {};
+const audioPlayed = new Set(); // Keeps track of filenames played in this minute
+
+
 let todayPrayerTimes = {};
 let currentHijriDate = "";
 
@@ -54,6 +59,18 @@ function loadCSVandInit() {
       updateClock();
     });
 }
+
+function preloadAllAudio() {
+  AUDIO_NAMES.forEach(name => {
+    const recite = new Audio(`${name}_recite.mp3`);
+    const adhan = new Audio(`${name}_adhan.mp3`);
+    recite.preload = "auto";
+    adhan.preload = "auto";
+    audioCache[`${name}_recite.mp3`] = recite;
+    audioCache[`${name}_adhan.mp3`] = adhan;
+  });
+}
+
 
 function formatDate(date) {
   const day = date.getDate();
@@ -139,21 +156,46 @@ function updateNextPrayerTimer(now) {
   document.getElementById("next-prayer-timer").textContent =
   `Waktu Solat (${nextPrayer}) dalam ${hours}h ${mins}m ${secs}s`;
 
+
+}
+
   // Audio triggers
+function checkPrayerAudio(now) {
+  const nowMs = now.getTime();
+  const nowMinuteKey = `${now.getHours()}:${now.getMinutes()}`;
+
   const reciteTime = nextTimeMs - recitationOffsetMin * 60000;
-  if (Math.abs(nowMs - reciteTime) < 1000) {
-    playAudio(`${nextPrayer.toLowerCase()}_recite.mp3`);
+  const reciteFile = `${nextPrayer.toLowerCase()}_recite.mp3`;
+  const adhanFile = `${nextPrayer.toLowerCase()}_adhan.mp3`;
+
+  if (Math.abs(nowMs - reciteTime) < 1000 && !audioPlayed.has(`${reciteFile}-${nowMinuteKey}`)) {
+    playAudio(reciteFile);
+    audioPlayed.add(`${reciteFile}-${nowMinuteKey}`);
   }
 
-  if (Math.abs(nowMs - nextTimeMs) < 1000) {
-    playAudio(`${nextPrayer.toLowerCase()}_adhan.mp3`);
+  if (Math.abs(nowMs - nextTimeMs) < 1000 && !audioPlayed.has(`${adhanFile}-${nowMinuteKey}`)) {
+    playAudio(adhanFile);
+    audioPlayed.add(`${adhanFile}-${nowMinuteKey}`);
   }
 }
+
 
 function playAudio(filename) {
-  const audio = new Audio(filename);
-  audio.play().catch(e => console.error("Audio error:", e));
+  const audio = audioCache[filename];
+  if (audio) {
+    audio.currentTime = 0;
+    audio.play().catch(e => console.error("Audio play error:", e));
+  } else {
+    console.warn("Audio not preloaded:", filename);
+  }
 }
+
 
 // Start
 loadCSVandInit();
+
+window.addEventListener("DOMContentLoaded", () => {
+  preloadAllAudio();
+  initClock();
+});
+
