@@ -108,7 +108,7 @@ function checkAndUpdatePrayerHighlight(now) {
       cell.classList.add("current");
     }
   });
-
+}
 function updateNextPrayerTimer(now) {
   const nowMs = now.getTime();
   let nextPrayer = null;
