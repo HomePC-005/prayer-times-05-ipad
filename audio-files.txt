@@ -1,0 +1,6 @@
+subuh_recite.mp3
+subuh_adhan.mp3
+zohor_recite.mp3
+zohor_adhan.mp3
+etc
+all lower cap
