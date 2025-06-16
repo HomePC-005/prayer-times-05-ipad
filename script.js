@@ -7,9 +7,12 @@ let currentHijriDate = "";
 
 function updateClock() {
   const now = new Date();
-  document.getElementById("current-time").textContent = now.toLocaleTimeString();
-  document.getElementById("gregorian-date").textContent = formatLongDate(now);
-
+document.getElementById("current-time").textContent = now.toLocaleTimeString([], {
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: true
+  });
+document.getElementById("gregorian-date").textContent = formatLongDate(now);
   checkAndUpdatePrayerHighlight(now);
   updateNextPrayerTimer(now);
 }
