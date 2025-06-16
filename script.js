@@ -1,4 +1,4 @@
-const PRAYER_NAMES = ["Imsak", "Subuh", "Syuruk", "Zohor", "Asar", "Maghrib", "Isyak"];
+const PRAYER_NAMES = ["Subuh", "Syuruk", "Zohor", "Asar", "Maghrib", "Isyak"];
 const audioQueue = [];
 const recitationOffsetMin = 10;
 
