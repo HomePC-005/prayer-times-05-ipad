@@ -75,15 +75,19 @@ function getTimeInMs(hour, minute) {
 }
 
 function populatePrayerTable(data) {
-  const tbody = document.querySelector("#prayer-table tbody");
-  tbody.innerHTML = "";
+  const container = document.getElementById("prayer-table");
+  container.innerHTML = ""; // clear previous
 
   PRAYER_NAMES.forEach(name => {
     const time = data[name];
-    const row = document.createElement("tr");
-    row.setAttribute("data-prayer", name);
-    row.innerHTML = `<td>${name}</td><td>${time}</td>`;
-    tbody.appendChild(row);
+    const cell = document.createElement("div");
+    cell.classList.add("prayer-cell");
+    cell.setAttribute("data-prayer", name);
+    cell.innerHTML = `
+      <div class="prayer-name">${name}</div>
+      <div class="prayer-time">${time}</div>
+    `;
+    container.appendChild(cell);
   });
 }
 
@@ -97,14 +101,13 @@ function checkAndUpdatePrayerHighlight(now) {
     if (nowMs >= timeMs) current = name;
   });
 
-  const rows = document.querySelectorAll("#prayer-table tbody tr");
-  rows.forEach(row => {
-    row.classList.remove("current");
-    if (row.getAttribute("data-prayer") === current) {
-      row.classList.add("current");
+  const cells = document.querySelectorAll(".prayer-cell");
+  cells.forEach(cell => {
+    cell.classList.remove("current");
+    if (cell.getAttribute("data-prayer") === current) {
+      cell.classList.add("current");
     }
   });
-}
 
 function updateNextPrayerTimer(now) {
   const nowMs = now.getTime();
