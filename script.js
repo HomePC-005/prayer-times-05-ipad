@@ -23,8 +23,8 @@ document.getElementById("gregorian-date").textContent = formatLongDate(now);
 }
 
 function formatLongDate(date) {
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const days = ["Ahad", "Isnin", "Selasa", "Rabu", "Khamis", "Jumaat", "Sabtu"];
+  const months = ["Jan", "Feb", "Mac", "Apr", "Mei", "Jun", "Jul", "Ogos", "Sep", "Okt", "Nov", "Dis"];
   const dayName = days[date.getDay()];
   const dayNum = String(date.getDate()).padStart(2, '0');
   const monthName = months[date.getMonth()];
@@ -49,7 +49,7 @@ function loadCSVandInit() {
             todayPrayerTimes[h.trim()] = row[idx].trim();
           });
           currentHijriDate = todayPrayerTimes["Date Hijri"];
-          document.getElementById("hijri-date").textContent = `Hijri: ${currentHijriDate}`;
+          document.getElementById("hijri-date").textContent = `Tarikh Hijri: ${currentHijriDate}`;
           populatePrayerTable(todayPrayerTimes);
           break;
         }
