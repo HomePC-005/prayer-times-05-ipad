@@ -25,7 +25,27 @@
       padding: 40px;
       box-sizing: border-box;
     }
+    #start-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #ffffff;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
+    #start-button {
+      padding: 30px 60px;
+      font-size: 2.5rem;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
     .top-section {
       text-align: center;
     }
@@ -98,6 +118,9 @@
   </style>
 </head>
 <body>
+  <div id="start-screen">
+  <button id="start-button">Mulakan Operasi</button>
+</div>
   <div class="top-section">
     <div class="gregorian-date" id="gregorian-date">Loading date...</div>
     <div class="hijri-date" id="hijri-date">Hijri Date: --/--/----</div>
@@ -110,4 +133,8 @@
     <!-- JS will generate prayer cells here -->
   </div>
 </body>
+<script>
+  document.getElementById("start-button").addEventListener("click", () => {
+  document.getElementById("start-screen").style.display = "none";
+</script>
 </html>
