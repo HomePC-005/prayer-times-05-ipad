@@ -11,9 +11,6 @@ let nextTimeMs = null;
 let todayPrayerTimes = {};
 let currentHijriDate = "";
 
-document.getElementById("start-button").addEventListener("click", () => {
-document.getElementById("start-screen").style.display = "none";
-
 function updateClock() {
   const now = new Date();
 document.getElementById("current-time").textContent = now.toLocaleTimeString([], {
