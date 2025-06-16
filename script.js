@@ -199,3 +199,6 @@ window.addEventListener("DOMContentLoaded", () => {
   initClock();
 });
 
+setInterval(() => {
+  audioPlayed.clear();
+}, 60 * 1000);
