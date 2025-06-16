@@ -2,93 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Jam Waktu Solat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Waktu Solat Segamat Johor</title>
-  <link rel="stylesheet" href="style.css" />
   <script src="script.js" defer></script>
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
       font-family: "Segoe UI", sans-serif;
-      background: #0f172a;
+      background-color: #0f172a;
       color: #f8fafc;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      height: 100vh;
-      padding: 20px;
+      overflow: hidden;
     }
 
-    h1 {
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+
+    .top-section {
+      text-align: center;
+    }
+
+    .gregorian-date,
+    .hijri-date {
       font-size: 2em;
-      margin: 0.5em 0;
+      margin: 0.2em;
     }
 
     .clock {
-      font-size: 5em;
+      font-size: 6em;
       font-weight: bold;
-      margin-top: 0.5em;
+      margin: 0.3em 0;
     }
 
-    .date {
-      font-size: 1.5em;
-      margin-bottom: 1em;
+    .next-prayer {
+      font-size: 2em;
+      color: #facc15;
+      margin-top: 0.3em;
     }
 
     .prayer-table {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 20px;
       width: 100%;
-      max-width: 600px;
-      border-collapse: collapse;
-      margin-top: 1em;
+      max-width: 1800px;
+      margin-top: 40px;
     }
 
-    .prayer-table th,
-    .prayer-table td {
-      padding: 12px;
-      text-align: center;
-      border-bottom: 1px solid #334155;
-    }
-
-    .prayer-table th {
+    .prayer-cell {
       background-color: #1e293b;
-      color: #f1f5f9;
+      padding: 20px;
+      text-align: center;
+      border-radius: 15px;
+      font-size: 2em;
+      transition: background-color 0.3s;
     }
 
-    .prayer-table .current {
+    .prayer-cell.current {
       background-color: #0284c7;
       color: white;
       font-weight: bold;
     }
 
-    .next-prayer-timer {
-      margin-top: 1em;
-      font-size: 1.5em;
-      color: #facc15;
+    .prayer-name {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .prayer-time {
+      font-size: 1.6em;
+    }
+
+    @media (max-width: 1280px) {
+      .clock {
+        font-size: 4em;
+      }
+      .prayer-cell {
+        font-size: 1.5em;
+        padding: 15px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Waktu Solat Segamat, Johor</h1>
-
-  <div class="clock" id="current-time">--:--:--</div>
-  <div class="date" id="gregorian-date">Loading...</div>
-  <div class="date" id="hijri-date">Tarikh Hijrah: --/--/----</div>
-
-  <div class="next-prayer-timer" id="next-prayer-timer">
-    Next prayer in: --
+  <div class="top-section">
+    <div class="gregorian-date" id="gregorian-date">Loading date...</div>
+    <div class="hijri-date" id="hijri-date">Hijri Date: --/--/----</div>
+    <div class="clock" id="current-time">--:--:--</div>
+    <div class="next-prayer" id="next-prayer-timer">Next prayer in: --</div>
   </div>
 
-  <table class="prayer-table" id="prayer-table">
-    <thead>
-      <tr>
-        <th>Prayer</th>
-        <th>Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Rows populated by script.js -->
-    </tbody>
-  </table>
+  <div class="prayer-table" id="prayer-table">
+    <!-- JS will generate prayer cells here -->
+  </div>
 </body>
 </html>
