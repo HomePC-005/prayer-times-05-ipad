@@ -8,11 +8,22 @@ let currentHijriDate = "";
 function updateClock() {
   const now = new Date();
   document.getElementById("current-time").textContent = now.toLocaleTimeString();
-  document.getElementById("gregorian-date").textContent = now.toDateString();
+  document.getElementById("gregorian-date").textContent = formatLongDate(now);
 
   checkAndUpdatePrayerHighlight(now);
   updateNextPrayerTimer(now);
 }
+
+function formatLongDate(date) {
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const dayName = days[date.getDay()];
+  const dayNum = String(date.getDate()).padStart(2, '0');
+  const monthName = months[date.getMonth()];
+  const year = date.getFullYear();
+  return `${dayName}, ${dayNum} ${monthName} ${year}`;
+}
+
 
 function loadCSVandInit() {
   fetch("prayer_times.csv")
@@ -115,10 +126,12 @@ function updateNextPrayerTimer(now) {
   }
 
   const diffMs = nextTimeMs - nowMs;
-  const mins = Math.floor(diffMs / 60000);
-  const secs = Math.floor((diffMs % 60000) / 1000);
+  const totalSecs = Math.floor(diffMs / 1000);
+  const hours = Math.floor(totalSecs / 3600);
+  const mins = Math.floor((totalSecs % 3600) / 60);
+  const secs = totalSecs % 60;
   document.getElementById("next-prayer-timer").textContent =
-    `Next prayer (${nextPrayer}) in ${mins}m ${secs}s`;
+  `Waktu Solat (${nextPrayer}) dalam ${hours}h ${mins}m ${secs}s`;
 
   // Audio triggers
   const reciteTime = nextTimeMs - recitationOffsetMin * 60000;
