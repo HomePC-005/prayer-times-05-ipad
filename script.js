@@ -170,6 +170,16 @@ function checkPrayerAudio(now) {
   const reciteFile = `${nextPrayer.toLowerCase()}_recite.mp3`;
   const adhanFile = `${nextPrayer.toLowerCase()}_adhan.mp3`;
 
+  document.getElementById("button-adhan").addEventListener("click", () => {
+playAudio(playAudio(adhanFile))
+  });
+
+  document.getElementById("button-recite").addEventListener("click", () => {
+playAudio(playAudio(reciteFile))
+  });
+
+
+
   if (Math.abs(nowMs - reciteTime) < 1000 && !audioPlayed.has(`${reciteFile}-${nowMinuteKey}`)) {
     playAudio(reciteFile);
     audioPlayed.add(`${reciteFile}-${nowMinuteKey}`);
@@ -194,11 +204,10 @@ function playAudio(filename) {
 
 
 // Start
-loadCSVandInit();
 
 window.addEventListener("DOMContentLoaded", () => {
   preloadAllAudio();
-  initClock();
+  loadCSVandInit();
 });
 
 setInterval(() => {
