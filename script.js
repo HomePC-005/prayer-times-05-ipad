@@ -170,14 +170,29 @@ function checkPrayerAudio(now) {
   const reciteFile = `${nextPrayer.toLowerCase()}_recite.mp3`;
   const adhanFile = `${nextPrayer.toLowerCase()}_adhan.mp3`;
 
+//new add 
+
+if (nextPrayer) {
+  const reciteFilename = `${nextPrayer.toLowerCase()}_recite.mp3`;
+  const adhanFilename = `${nextPrayer.toLowerCase()}_adhan.mp3`;
+
+  const reciteTime = nextTimeMs - recitationOffsetMin * 60000;
+  if (Math.abs(nowMs - reciteTime) < 1000) {
+    playAudio(reciteFilename);
+  }
+
+  if (Math.abs(nowMs - nextTimeMs) < 1000) {
+    playAudio(adhanFilename);
+  }
+
   document.getElementById("button-adhan").addEventListener("click", () => {
-playAudio(playAudio(adhanFile))
+playAudio(adhanFilename)
   });
 
   document.getElementById("button-recite").addEventListener("click", () => {
-playAudio(playAudio(reciteFile))
+playAudio(reciteFilename)
   });
-
+}
 
 
   if (Math.abs(nowMs - reciteTime) < 1000 && !audioPlayed.has(`${reciteFile}-${nowMinuteKey}`)) {
