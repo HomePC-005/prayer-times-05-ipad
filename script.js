@@ -13,6 +13,13 @@ let currentHijriDate = "";
 
 function updateClock() {
   const now = new Date();
+
+  // Check for date change
+  const todayKey = formatDate(now);
+  if (todayKey !== currentDateKey && csvDataRaw) {
+    console.log("New day detected. Reloading prayer data.");
+    loadPrayerTimesForDate(now, csvDataRaw);
+  }
 document.getElementById("current-time").textContent = now.toLocaleTimeString([], {
   hour: '2-digit',
   minute: '2-digit',
@@ -34,29 +41,37 @@ function formatLongDate(date) {
   return `${dayName}, ${dayNum} ${monthName} ${year}`;
 }
 
+function loadPrayerTimesForDate(date, csvText) {
+  const lines = csvText.trim().split("\n");
+  const headers = lines[0].split(",");
+  const dateKey = formatDate(date); // "1-Jan-25"
+
+  for (let i = 1; i < lines.length; i++) {
+    const row = lines[i].split(",");
+    if (row[0] === dateKey) {
+      todayPrayerTimes = {};
+      headers.forEach((h, idx) => {
+        todayPrayerTimes[h.trim()] = row[idx].trim();
+      });
+      currentHijriDate = todayPrayerTimes["Date Hijri"];
+      currentDateKey = dateKey;
+      document.getElementById("hijri-date").textContent = `Tarikh Hijri: ${currentHijriDate}`;
+      populatePrayerTable(todayPrayerTimes);
+      console.log("Prayer times loaded for:", dateKey);
+      break;
+    }
+  }
+}
+
+let csvDataRaw = ""; // to keep loaded CSV for reuse
 
 function loadCSVandInit() {
   fetch("prayer_times.csv")
     .then(res => res.text())
     .then(csvText => {
-      const lines = csvText.trim().split("\n");
-      const headers = lines[0].split(",");
-      const todayStr = formatDate(new Date()); // match "1-Jan-25"
-
-      for (let i = 1; i < lines.length; i++) {
-        const row = lines[i].split(",");
-        if (row[0] === todayStr) {
-          todayPrayerTimes = {};
-          headers.forEach((h, idx) => {
-            todayPrayerTimes[h.trim()] = row[idx].trim();
-          });
-          currentHijriDate = todayPrayerTimes["Date Hijri"];
-          document.getElementById("hijri-date").textContent = `Tarikh Hijri: ${currentHijriDate}`;
-          populatePrayerTable(todayPrayerTimes);
-          break;
-        }
-      }
-
+      csvDataRaw = csvText; // Save it globally for reuse
+      const today = new Date();
+      loadPrayerTimesForDate(today, csvDataRaw);
       setInterval(updateClock, 1000);
       updateClock();
     });
