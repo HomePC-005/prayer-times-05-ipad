@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jam Waktu Solat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <script src="script.js" defer></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: "Segoe UI", sans-serif;
+      background-color: black;
+      color: #f8fafc;
+      overflow: hidden;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    #start-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #start-button {
+      padding: 20px 40px;
+      font-size: 2rem;
+      width: 100vw;
+      height: 100vh;
+      background-color: #2E3A59;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .top-section {
+      text-align: center;
+      width: 100%;
+    }
+
+    .gregorian-date {
+      font-size: 2em;
+      margin: 0.2em;
+      color: powderblue;
+    }
+
+    .hijri-date {
+      font-size: 1.4em;
+      margin: 0.2em;
+    }
+
+    .clock {
+      font-size: 4em;
+      font-weight: bold;
+      margin: 0.2em 0;
+    }
+
+    #current-time {
+      font-size: 4.5em;
+      font-family: "Helvetica";
+    }
+
+    .next-prayer {
+      font-size: 2em;
+      color: #facc15;
+      margin-top: 0.3em;
+    }
+
+    .prayer-table {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .prayer-cell {
+      background-color: #1e293b;
+      padding: 12px;
+      text-align: center;
+      border-radius: 10px;
+      font-size: 1.3em;
+      transition: background-color 0.3s;
+    }
+
+    .prayer-cell.current {
+      background-color: #0284c7;
+      color: white;
+      font-weight: bold;
+    }
+
+    .prayer-name {
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .prayer-time {
+      font-size: 1.1em;
+    }
+
+    /* Extra scaling for smaller iPad screens */
+    @media (max-width: 1024px) {
+      .clock {
+        font-size: 3.5em;
+      }
+
+      .gregorian-date {
+        font-size: 1.7em;
+      }
+
+      .hijri-date {
+        font-size: 1.2em;
+      }
+
+      .next-prayer {
+        font-size: 1.8em;
+      }
+
+      .prayer-table {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      .prayer-cell {
+        font-size: 1.1em;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="start-screen">
+    <button id="start-button">Klik untuk Mula Operasi</button>
+  </div>
+
+  <div class="top-section">
+    <div class="gregorian-date" id="gregorian-date">Loading date...</div>
+    <div class="hijri-date" id="hijri-date">Hijri Date: --/--/----</div>
+    <div class="clock" id="current-time">--:--:--</div>
+    <div class="next-prayer" id="next-prayer-timer">Next prayer in: --</div>
+  </div>
+
+  <div class="prayer-table" id="prayer-table">
+    <!-- Prayer cells injected by JS -->
+  </div>
+
+  <script>
+    document.getElementById("start-button").addEventListener("click", () => {
+      document.getElementById("start-screen").style.display = "none";
+    });
+  </script>
+</body>
+</html>
